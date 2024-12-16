@@ -8,8 +8,8 @@ public class Exercise3 {
         for (int i = 1; i < 6; i++) {
             CalculatorCallable calculatorCallable = new CalculatorCallable(i);
 
-            Future<String> result = executor.submit(calculatorCallable);
-            System.out.println(result.get());
+            Future<Integer> result = executor.submit(calculatorCallable);
+            System.out.println("Le cube de " + i + " est " + result.get());
         }
         executor.shutdown();
 

@@ -2,7 +2,7 @@ package com.jeido.thread.exercises.exercise3;
 
 import java.util.concurrent.Callable;
 
-public class CalculatorCallable implements Callable<String> {
+public class CalculatorCallable implements Callable<Integer> {
     private final int n;
 
     public CalculatorCallable(int n) {
@@ -10,7 +10,7 @@ public class CalculatorCallable implements Callable<String> {
     }
 
     @Override
-    public String call() throws Exception {
-        return "Le cube de " + n + " est " + n * n * n;
+    public Integer call() throws Exception {
+        return n * n * n;
     }
 }
