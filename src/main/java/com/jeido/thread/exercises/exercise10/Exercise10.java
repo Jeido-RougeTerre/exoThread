@@ -7,10 +7,10 @@ public class Exercise10 {
         AtomicLong atoVal = new AtomicLong(1);
         Thread[] threads = new Thread[5];
         for (int i = 1; i <= threads.length; i++) {
-            int mult = i + 1;
+            final int mult = i + 1;
             long res = atoVal.updateAndGet(v -> mult * v);
             threads[i - 1] = new Thread(() -> System.out.println(Thread.currentThread().getName() + " multiplicateur : " + mult + " = " + res));
-            threads[i].start();
+            threads[i - 1].start();
         }
         for (Thread thread : threads) thread.join();
 
