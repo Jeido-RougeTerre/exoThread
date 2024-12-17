@@ -5,40 +5,31 @@ import com.jeido.thread.ui.Ansi;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Exercise11 {
-    private static final ReentrantLock lock = new ReentrantLock();
+    private static final Object lock = new Object();
     public static void main(String[] args) throws InterruptedException {
         BankAccount ba = new BankAccount();
 
         Thread thread1 = new Thread(() -> {
-            lock.lock();
-            try {
+            synchronized (lock) {
                 for (int i = 0; i < 5; i++) {
                     ba.deposit(10);
                 }
-            } finally {
-                lock.unlock();
             }
         });
 
         Thread thread2 = new Thread(() -> {
-            lock.lock();
-            try {
+            synchronized (lock) {
                 for (int i = 0; i < 5; i++) {
                     ba.withdraw(10);
                 }
-            } finally {
-                lock.unlock();
             }
         });
 
         Thread thread3 = new Thread(() -> {
-            lock.lock();
-            try {
+            synchronized (lock) {
                 for (int i = 0; i < 5; i++) {
                     ba.deposit(10);
                 }
-            } finally {
-                lock.unlock();
             }
         });
 
