@@ -10,14 +10,18 @@ public class Exercise7 {
     public static void main(String[] args) {
 
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.scheduleAtFixedRate(() -> System.out.println("Message périodique " + counter.incrementAndGet()),
+        executor.scheduleAtFixedRate(() -> {
+                    int currentCounter = counter.getAndIncrement();
+                    System.out.println("Message périodique " + currentCounter);
+                    if (currentCounter >= 5) {
+                        System.out.println("Programme terminé.");
+                        executor.shutdown();
+                    }
+                },
                 1,
                 2,
                 TimeUnit.SECONDS
         );
-        while (counter.get() < 5) {}
-        executor.shutdown();
-        System.out.println("Programme terminé.");
 
     }
 }
