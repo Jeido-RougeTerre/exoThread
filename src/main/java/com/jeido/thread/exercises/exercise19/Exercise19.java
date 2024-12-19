@@ -17,13 +17,13 @@ public class Exercise19 {
 
         Runnable removeTask = () -> {
             for (int i = 0; i < 10; i++) {
-                String item = "Producer-Element-" + i;
-                if (queue.contains(item)) {
-                    queue.remove(item);
+                String item = queue.poll();
+                if (item != null) {
                     System.out.println("Consumer removed: " + item);
                 } else {
-                    System.out.println("Consumer could not remove: " + item);
+                    System.out.println("Consumer could not remove item");
                 }
+
             }
         };
 
