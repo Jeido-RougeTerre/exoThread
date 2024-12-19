@@ -2,6 +2,8 @@ package com.jeido.thread.exercises.exercise17;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Exercise17 {
     private final ConcurrentHashMap<String, Integer> inventory = new ConcurrentHashMap<>();
@@ -11,7 +13,11 @@ public class Exercise17 {
         shop.addItem("ProductA", 52);
         shop.addItem("ProductB", 31);
         shop.addItem("ProductC", 21);
-        Thread buyer1 = new Thread(new CommandExecutor(Command.makeCommandsForItems("Buyer-1", List.of(
+
+
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        executor.submit(new CommandExecutor(Command.makeCommandsForItems("Buyer-1", List.of(
                 "ProductC",
                 "ProductA",
                 "ProductB",
@@ -24,7 +30,7 @@ public class Exercise17 {
                 "ProductA"
         ))));
 
-        Thread buyer2 = new Thread(new CommandExecutor(Command.makeCommandsForItems("Buyer-2", List.of(
+        executor.submit(new CommandExecutor(Command.makeCommandsForItems("Buyer-2", List.of(
                 "ProductA",
                 "ProductA",
                 "ProductB",
@@ -37,7 +43,7 @@ public class Exercise17 {
                 "ProductC"
         ))));
 
-        Thread supplier = new Thread(new SupplyExecutor(Supply.getSupplyListForItems("Supplier", List.of(
+        executor.submit(new SupplyExecutor(Supply.getSupplyListForItems("Supplier", List.of(
                 "ProductA",
                 "ProductA",
                 "ProductB",
@@ -45,13 +51,11 @@ public class Exercise17 {
                 "ProductB"
         ))));
 
-        buyer1.start();
-        buyer2.start();
-        supplier.start();
+        executor.shutdown();
 
-        buyer1.join();
-        buyer2.join();
-        supplier.join();
+        while (!executor.isTerminated()) {
+            Thread.sleep(100);
+        }
 
         System.out.printf("Final Inventory: %s\n", shop.getInventory());
     }

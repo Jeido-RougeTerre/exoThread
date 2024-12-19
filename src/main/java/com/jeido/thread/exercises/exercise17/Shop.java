@@ -20,16 +20,11 @@ public class Shop {
     }
 
     public void buyItem(String item, int quantity) {
-        if (!inventory.containsKey(item)) return;
-        int q = inventory.get(item);
-        if (quantity < q) return;
-        inventory.put(item, quantity - q);
+        inventory.computeIfPresent(item, (k, v) -> v >= quantity ? v - quantity : 0);
     }
 
     public void supplyItem(String item, int quantity) {
-        if (!inventory.containsKey(item)) return;
-        int q = inventory.get(item);
-        inventory.put(item, q + quantity);
+        inventory.merge(item, quantity, Integer::sum);
     }
 
     public ConcurrentHashMap<String, Integer> getInventory() {
