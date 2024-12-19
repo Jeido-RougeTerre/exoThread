@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Exercise17 {
-    private final ConcurrentHashMap<String, Integer> inventory = new ConcurrentHashMap<>();
+
     public static void main(String[] args) throws InterruptedException {
         //B31 C21 A52
         Shop shop = Shop.getInstance();
